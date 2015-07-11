@@ -1,13 +1,13 @@
 package com.purestorage.dev.pureintent.messaging;
 
-import pureServer.messaging.incoming.HelpReceivedMessage;
-import pureServer.messaging.incoming.HelpRequestMessage;
-import pureServer.messaging.incoming.HelpUpdateMessage;
-import pureServer.messaging.incoming.OMWMessage;
-import pureServer.messaging.incoming.RegistrationMessage;
-import pureServer.messaging.incoming.SettingsUpdateMessage;
-import pureServer.messaging.outgoing.HelperRequestMessage;
-import pureServer.messaging.outgoing.HelperUpdateMessage;
+import com.purestorage.dev.pureintent.messaging.incoming.HelpReceivedMessage;
+import com.purestorage.dev.pureintent.messaging.incoming.HelpRequestMessage;
+import com.purestorage.dev.pureintent.messaging.incoming.HelpUpdateMessage;
+import com.purestorage.dev.pureintent.messaging.incoming.OMWMessage;
+import com.purestorage.dev.pureintent.messaging.incoming.RegistrationMessage;
+import com.purestorage.dev.pureintent.messaging.incoming.SettingsUpdateMessage;
+import com.purestorage.dev.pureintent.messaging.outgoing.HelperRequestMessage;
+import com.purestorage.dev.pureintent.messaging.outgoing.HelperUpdateMessage;
 
 public abstract class Message {
 	
