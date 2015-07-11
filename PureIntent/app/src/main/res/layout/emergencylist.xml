@@ -27,7 +27,6 @@
         android:clickable="true"
         android:enabled="true"
         android:gravity="center"
-        android:onClick="cardiacArrest"
         />
 
 </RelativeLayout>

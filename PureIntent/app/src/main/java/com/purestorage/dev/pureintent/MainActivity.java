@@ -51,6 +51,14 @@ public class MainActivity extends AppCompatActivity {
         mEmergency = false;
         setContentView(R.layout.activity_main);
 
+        mEmergencyButton = (Button) findViewById(R.id.EmergencyButton);
+        mEmergencyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mSelfPointer, "Emergency button pressed!", Toast.LENGTH_SHORT).show();
+                emergencyReported();
+            }
+        });
 
     }
     @Override
@@ -230,9 +238,9 @@ public class MainActivity extends AppCompatActivity {
     {
         setContentView(R.layout.user_settings_activity);
     }
-    public void goActive(View view)
+    public void goActive()
     {
-
+        Toast.makeText(this,"You have opted to recieve Medical Alerts",Toast.LENGTH_SHORT).show();
     }
     public void cardiacArrest(View view)
     {
@@ -242,5 +250,22 @@ public class MainActivity extends AppCompatActivity {
     {
         mEmergency = true;
         setContentView(R.layout.emergencylist);
+        Button CardiacArrest = (Button) findViewById(R.id.CardiacArrest);
+        CardiacArrest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mSelfPointer, "Your medical emergency has been broadcasted!\n if you haven't called 911, please do", Toast.LENGTH_SHORT).show();
+                setContentView(R.layout.activity_main);
+
+                mEmergencyButton = (Button) findViewById(R.id.EmergencyButton);
+                mEmergencyButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(mSelfPointer, "Emergency button pressed!", Toast.LENGTH_SHORT).show();
+                        emergencyReported();
+                    }
+                });
+        }
+        });
     }
 }
