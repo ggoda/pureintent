@@ -95,7 +95,7 @@ public class RequestThreadHandler extends Thread{
 		while(request.helpNeeded()){
 			Coordinate loc = request.getLocation();
 			for(Helper h : ServerMain.allHelpers){ //look through all helpers
-				if(h.nearLoc(loc)){ //if they're close enough
+				if(h.nearLoc(loc) && h.getID()!=id){ //if they're close enough
 					try {
 						HelperRequestMessage m = new HelperRequestMessage(h, request); //create a request message
 						out.put(m); //put it in the queue for the server to write out

@@ -17,6 +17,7 @@ import pureServer.messaging.MessageType;
 import pureServer.messaging.incoming.HelpReceivedMessage;
 import pureServer.messaging.incoming.HelpRequestMessage;
 import pureServer.messaging.incoming.OMWMessage;
+import pureServer.messaging.incoming.RegistrationMessage;
 
 public class ServerMain {
 	
@@ -118,7 +119,11 @@ public class ServerMain {
             	clientSockets.put(firstClientMessage.getID(), client);
             	helpRequest.start();
             }else if(firstClientMessage.getMessageType() == MessageType.REGISTRATION_MESSAGE){
-            	//make method to register user
+            	RegistrationMessage rm = (RegistrationMessage) firstClientMessage;
+            	Helper newHelper = new Helper(rm.getID(), null, rm.getThresshold());
+            	
+            	allHelpers.add(newHelper);
+            	helperMap.put(rm.getID(), newHelper);
             	
             }else if(firstClientMessage.getMessageType() == MessageType.ON_MY_WAY_MESSAGE){
             	//send help incoming to associated client

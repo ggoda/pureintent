@@ -27,8 +27,8 @@ public class Helper{
 		for(Coordinate c : locations){
 			double cLat = c.getLatitude();
 			double cLon = c.getLongitude();
-			double latDiff = Math.pow(lat - cLat, 2);
-			double lonDiff = Math.pow(lon - cLon, 2);
+			double latDiff = Math.pow(68*(lat - cLat), 2);
+			double lonDiff = Math.pow(55*(lon - cLon), 2);
 			
 			double dist = Math.sqrt(latDiff + lonDiff);
 			if(dist < threshhold){
