@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">PureIntent</string>
-
-    <string name="hello_world">Hello world!</string>
+    <string name="Emergency">Report Emergency</string>
     <string name="action_settings">Settings</string>
+    <string name="goactive">Go Active</string>
+    <string name="usrsettings">User Settings</string>
 </resources>

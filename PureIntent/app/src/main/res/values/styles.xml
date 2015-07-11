@@ -2,7 +2,16 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
+
+    </style>
+    <style name="ForButtons" >
+        <item name="android:padding">4dip</item>
+        <item name="android:textAppearanceButton">?android:attr/textAppearanceLarge</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="Layout">
+        <item name="android:background">#C0C0C0</item>
     </style>
 
 </resources>
