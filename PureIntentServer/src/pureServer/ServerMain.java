@@ -52,6 +52,10 @@ public class ServerMain {
     public static java.util.Map<String, Helper> helperMap;
     public static ArrayList<Helper> allHelpers;
 	
+    /**
+     * Creates a new instance of the PureIntent main server
+     * @throws IOException throws an IOException if the port is already bound on
+     */
     ServerMain() throws IOException{
 		this.serverSocket = new ServerSocket(DEFAULT_PORT);
 		this.clientSockets = Collections.synchronizedMap(new HashMap<>());
@@ -62,6 +66,11 @@ public class ServerMain {
 		//add method for populating list of helpers from database
 	}
     
+    /**
+     * Creates a new instance of the PureIntent main server
+     * @param port the port on which to listen for connections
+     * @throws IOException throws an IOException if the port is already bound on
+     */
     ServerMain(int port) throws IOException{
     	if(port <= MAX_PORT && port >= MIN_PORT){
     		this.serverSocket = new ServerSocket(port);
@@ -76,6 +85,11 @@ public class ServerMain {
 		//add method for populating list of helpers from database
 	}
 	
+    /**
+     * This method takes outgoing messages out of the blocking queue into which they were written and sends them to their intended targets
+     * @throws UnknownHostException an UnknownHostException is thrown if the server is trying to message a non-existent client
+     * @throws IOException an IOException is thrown if a socket connection is closed during writing
+     */
 	public void handleMessagesInQueue() throws UnknownHostException, IOException {
         while (true) {
             
@@ -131,10 +145,8 @@ public class ServerMain {
                try {
 				handleMessagesInQueue();
 			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
            }
@@ -150,15 +162,16 @@ public class ServerMain {
             System.out.println(input);
             Message firstClientMessage = Message.deserialize(input);
             
-            if(firstClientMessage.getMessageType() == MessageType.NEED_HELP_MESSAGE){
+            if(firstClientMessage.getMessageType() == MessageType.NEED_HELP_MESSAGE){ //asking for aid
             	RequestThreadHandler helpRequest = new RequestThreadHandler((HelpRequestMessage)firstClientMessage, messageQueueOut, client, in);
             	// Add the client to our map and then start the handler
             	clientSockets.put(firstClientMessage.getID(), client);
             	requestThreads.put(helpRequest.getID(), helpRequest);
             	helpRequest.start();
-            }else if(firstClientMessage.getMessageType() == MessageType.REGISTRATION_MESSAGE){
+            }else if(firstClientMessage.getMessageType() == MessageType.REGISTRATION_MESSAGE){ //register app
             	RegistrationMessage rm = (RegistrationMessage) firstClientMessage;
             	
+            	//make a new helper
             	Helper newHelper = new Helper(rm.getID(), new Coordinate[] {rm.getLoc()}, rm.getThresshold(), rm.getIP());
             	System.out.println(newHelper);
             	clientSockets.put(rm.getID(), client); //add client socket to list of sockets
@@ -166,6 +179,7 @@ public class ServerMain {
             	helperMap.put(rm.getID(), newHelper); //add to map of helpers
                 System.out.println(clientSockets);
                 
+                //start a new listening thread
                 new Thread(new Runnable(){ //this will handle any incoming messages after registration
                 	public void run(){
                 		try {
@@ -204,6 +218,12 @@ public class ServerMain {
         }
     }
     
+    /**
+     * This method handles new messages that come in over an existing client connection
+     * @param line the serialized message that has come in
+     * @param client the socket over which the message arrived
+     * @param in the buffered reader for receiving client input
+     */
     public void handleNewMessageOnExistingClient(String line, Socket client, BufferedReader in){
     	Message clientMessage = Message.deserialize(line);
     	if(clientMessage.getMessageType() == MessageType.NEED_HELP_MESSAGE){
