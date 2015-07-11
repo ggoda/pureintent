@@ -12,6 +12,11 @@ public class OMWMessage extends Message {
 	
 	String id;
 	String target;
+	
+	public OMWMessage(String t, String i){
+		target = t;
+		id = i;
+	}
 
 	public OMWMessage(String s) {
 		String[] fields = s.split(";");
@@ -21,13 +26,11 @@ public class OMWMessage extends Message {
 
 	@Override
 	public String serialize() {
-		// TODO Auto-generated method stub
-		return "OMW";
+		return "OMW" + ";" + id + ";" + target;
 	}
 
 	@Override
 	public MessageType getMessageType() {
-		// TODO Auto-generated method stub
 		return MessageType.ON_MY_WAY_MESSAGE;
 	}
 

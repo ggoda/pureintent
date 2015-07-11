@@ -116,20 +116,20 @@ public class RequestThreadHandler extends Thread{
 			
 		}).start();
 		
-		while(request.helpNeeded()){
-			Coordinate loc = request.getLocation();
-			for(Helper h : ServerMain.allHelpers){ //look through all helpers
-				if(h.nearLoc(loc) && h.getID()!=id){ //if they're close enough
-					try {
-						HelperRequestMessage m = new HelperRequestMessage(h, request); //create a request message
-						out.put(m); //put it in the queue for the server to write out
-						helpersAsked.put(h); //note that they're in range
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
+		Coordinate loc = request.getLocation();
+		for(Helper h : ServerMain.allHelpers){ //look through all helpers
+			if(h.nearLoc(loc) && h.getID()!=id){ //if they're close enough
+				try {
+					HelperRequestMessage m = new HelperRequestMessage(h, request); //create a request message
+					out.put(m); //put it in the queue for the server to write out
+					helpersAsked.put(h); //note that they're in range
+				} catch (InterruptedException e) {
+					e.printStackTrace();
 				}
 			}
 		}
+		
+		while(request.helpNeeded()){}; //wait
 		//help is no longer needed
 		for(Helper responder : helpersResponding){ //close out and notify active responders first
 			RequestClosedMessage rcm = new RequestClosedMessage(responder, request);

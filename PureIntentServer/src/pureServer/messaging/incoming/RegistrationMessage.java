@@ -17,6 +17,17 @@ public class RegistrationMessage extends Message {
 	 * R;string latitude; string longitude; number latitude; number longitude; threshhold; ip; android id
 	 */
 	
+	public RegistrationMessage(String sLat, String sLon, double dLat, double dLon, int t, String i, String uid){
+		lat = sLat;
+		lon = sLon;
+		id = uid;
+		nLat = dLat;
+		nLon = dLon;
+		ip = i;
+		threshhold = t;
+		
+		loc = new Coordinate(lat, lon, nLat, nLon);
+	}
 
 	public RegistrationMessage(String s) {
 		String[] fields = s.split(";");
@@ -45,7 +56,7 @@ public class RegistrationMessage extends Message {
 
 	@Override
 	public String serialize() {
-		return null;
+		return "R;" + lat + ";" + lon + ";" + nLat + ";" + nLon + ";" + threshhold + ";" + ip + ";" + id ;
 	}
 
 	@Override

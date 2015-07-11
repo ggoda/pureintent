@@ -16,11 +16,27 @@ public class HelperRequestMessage extends Message {
 	String target, id;
 	String lat, lon;
 	
+	public HelperRequestMessage(String s){
+		String[] fields = s.split(";");
+		lat = fields[1];
+		lon = fields[2];
+		id = fields[3];
+		target = fields[4];
+	}
+	
 	public HelperRequestMessage(Helper h, HelpRequest req){
 		target = h.getID();
 		id = req.getID();
 		lat = req.getLocation().getLatitudeString();
 		lon = req.getLocation().getLongitudeString();
+	}
+	
+	public String getLatitude(){
+		return lat;
+	}
+	
+	public String getLongitude(){
+		return lon;
 	}
 
 	@Override

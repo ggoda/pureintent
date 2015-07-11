@@ -6,6 +6,8 @@ import pureServer.messaging.incoming.HelpUpdateMessage;
 import pureServer.messaging.incoming.OMWMessage;
 import pureServer.messaging.incoming.RegistrationMessage;
 import pureServer.messaging.incoming.SettingsUpdateMessage;
+import pureServer.messaging.outgoing.HelperRequestMessage;
+import pureServer.messaging.outgoing.HelperUpdateMessage;
 
 public abstract class Message {
 	
@@ -29,6 +31,10 @@ public abstract class Message {
 			returnMessage = new RegistrationMessage(s);
 		}else if(fields[0].equals("HRE")){ //code for registration
 			returnMessage = new HelpReceivedMessage(s);
+		}else if(fields[0].equals("HR")){
+			returnMessage = new HelperRequestMessage(s);
+		}else if(fields[0].equals("HRU")){
+			returnMessage = new HelperUpdateMessage(s);
 		}
 		
 		return returnMessage;

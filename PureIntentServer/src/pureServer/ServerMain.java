@@ -60,7 +60,6 @@ public class ServerMain {
 		allHelpers = new ArrayList<Helper>();
 		helperMap = Collections.synchronizedMap(new HashMap<>());
 		//add method for populating list of helpers from database
-		makeDummyHelpers();
 	}
     
     ServerMain(int port) throws IOException{
@@ -75,19 +74,7 @@ public class ServerMain {
 		allHelpers = new ArrayList<Helper>();
 		helperMap = Collections.synchronizedMap(new HashMap<>());
 		//add method for populating list of helpers from database
-		makeDummyHelpers();
 	}
-    
-    private void makeDummyHelpers(){
-    	Coordinate pureStorage = new Coordinate("55N", "48E", 37.387953, -122.082736);
-    	Coordinate c2 = new Coordinate("56N", "49E", 38.387953, -122.082736);
-    	Helper h1 = new Helper("Android00", new Coordinate[] {pureStorage}, 50, "10.202.100.150");
-    	Helper h2 = new Helper("Android01", new Coordinate[] {c2}, 0, "127.0.0.1");
-    	allHelpers.add(h1);
-    	allHelpers.add(h2);
-    	helperMap.put("Android00", h1);
-    	helperMap.put("Android01", h2);
-    }
 	
 	public void handleMessagesInQueue() throws UnknownHostException, IOException {
         while (true) {
@@ -104,6 +91,9 @@ public class ServerMain {
             // Write the message to the corresponding socket
             Socket targetSocket;
             String targetID = nextMessage.getTarget();
+
+            System.out.println(targetID);
+            System.out.println(clientSockets);
             if(clientSockets.containsKey(nextMessage.getTarget())){
             	targetSocket = clientSockets.get(targetID);
             }else{
@@ -168,10 +158,26 @@ public class ServerMain {
             	helpRequest.start();
             }else if(firstClientMessage.getMessageType() == MessageType.REGISTRATION_MESSAGE){
             	RegistrationMessage rm = (RegistrationMessage) firstClientMessage;
-            	Helper newHelper = new Helper(rm.getID(), null, rm.getThresshold(), rm.getIP());
             	
-            	allHelpers.add(newHelper);
-            	helperMap.put(rm.getID(), newHelper);
+            	Helper newHelper = new Helper(rm.getID(), new Coordinate[] {rm.getLoc()}, rm.getThresshold(), rm.getIP());
+            	System.out.println(newHelper);
+            	clientSockets.put(rm.getID(), client); //add client socket to list of sockets
+            	allHelpers.add(newHelper); //add to list of helpers
+            	helperMap.put(rm.getID(), newHelper); //add to map of helpers
+                System.out.println(clientSockets);
+                
+                new Thread(new Runnable(){ //this will handle any incoming messages after registration
+                	public void run(){
+                		try {
+							for (String line = in.readLine(); line != null; line = in.readLine()) {
+								handleNewMessageOnExistingClient(line, client, in);
+							}
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+                	}
+                }).start();
             }else if(firstClientMessage.getMessageType() == MessageType.ON_MY_WAY_MESSAGE){
             	//send help incoming to associated client
             	OMWMessage omw = (OMWMessage) firstClientMessage;
@@ -189,14 +195,40 @@ public class ServerMain {
             	
             	clientSockets.put(omw.getID(), client);
             	
-            }else if(firstClientMessage.getMessageType() == MessageType.UPDATE_SETTINGS_MESSAGE){
-            	//add methods for updating a user's settings
             }else if(firstClientMessage.getMessageType() == MessageType.HELP_RECEIVED_MESSAGE){
             	//message indicating that client has received help
             	HelpReceivedMessage hrm = (HelpReceivedMessage) firstClientMessage;
-            	System.out.println("message received in rth");
+            	System.out.println("message received in server");
             	requestThreads.get(hrm.getID()).helpReceived();
             }
+        }
+    }
+    
+    public void handleNewMessageOnExistingClient(String line, Socket client, BufferedReader in){
+    	Message clientMessage = Message.deserialize(line);
+    	if(clientMessage.getMessageType() == MessageType.NEED_HELP_MESSAGE){
+        	RequestThreadHandler helpRequest = new RequestThreadHandler((HelpRequestMessage)clientMessage, messageQueueOut, client, in);
+        	// Add the client to our map and then start the handler
+        	requestThreads.put(helpRequest.getID(), helpRequest);
+        	helpRequest.start();
+        }else if(clientMessage.getMessageType() == MessageType.ON_MY_WAY_MESSAGE){
+        	//send help incoming to associated client
+        	OMWMessage omw = (OMWMessage) clientMessage;
+        	//add the responder to the list of active responders, as they get updates first
+        	requestThreads.get(omw.getTarget()).helperResponding(helperMap.get(omw.getID()));
+        	try {
+				messageQueueOut.put(omw); //forward the on my way message to the person who needs help
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+        	
+        }else if(clientMessage.getMessageType() == MessageType.UPDATE_SETTINGS_MESSAGE){
+        	//add methods for updating a user's settings
+        }else if(clientMessage.getMessageType() == MessageType.HELP_RECEIVED_MESSAGE){
+        	//message indicating that client has received help
+        	HelpReceivedMessage hrm = (HelpReceivedMessage) clientMessage;
+        	System.out.println("message received in server");
+        	requestThreads.get(hrm.getID()).helpReceived();
         }
     }
     
