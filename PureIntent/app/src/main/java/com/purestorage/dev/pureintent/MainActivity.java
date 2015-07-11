@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                     }
                                 }
-                            });
+                            }).start();
                             for (String line = messageReader.readLine(); line != null; line = messageReader.readLine()) {
                                 handleServerMessages(line);
                             }
@@ -277,6 +277,7 @@ public class MainActivity extends AppCompatActivity {
         CardiacArrest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mEmergency = true;
                 Toast.makeText(mSelfPointer, "Your medical emergency has been broadcasted!\n if you haven't called 911, please do", Toast.LENGTH_SHORT).show();
                 setContentView(R.layout.activity_main);
 
