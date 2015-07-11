@@ -79,9 +79,9 @@ public class ServerMain {
 	}
     
     private void makeDummyHelpers(){
-    	Coordinate c = new Coordinate("55N", "48E", 37.387953, -122.082736);
+    	Coordinate pureStorage = new Coordinate("55N", "48E", 37.387953, -122.082736);
     	Coordinate c2 = new Coordinate("56N", "49E", 38.387953, -122.082736);
-    	Helper h1 = new Helper("Android00", new Coordinate[] {c}, 0, "127.0.0.1");
+    	Helper h1 = new Helper("Android00", new Coordinate[] {pureStorage}, 50, "10.202.100.150");
     	Helper h2 = new Helper("Android01", new Coordinate[] {c2}, 0, "127.0.0.1");
     	allHelpers.add(h1);
     	allHelpers.add(h2);
