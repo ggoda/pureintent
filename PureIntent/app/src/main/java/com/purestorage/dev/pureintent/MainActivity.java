@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.view.View;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     String androidID;
     PrintWriter messageWriter;
     BufferedReader messageReader;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -228,6 +230,12 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            setContentView(R.layout.user_settings_activity);
+            return true;
+        }
+        if (id == R.id.action_goactive)
+        {
+            goActive();
             return true;
         }
 
@@ -241,10 +249,14 @@ public class MainActivity extends AppCompatActivity {
     public void goActive()
     {
         Toast.makeText(this,"You have opted to recieve Medical Alerts",Toast.LENGTH_SHORT).show();
-    }
-    public void cardiacArrest(View view)
-    {
 
+
+    }
+    public void cardiacArrest()
+    {
+        String uri = "geo:0,0,?q=37.388257,-122.082974(Patient)";
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+        startActivity(intent);
     }
     public void emergencyReported()
     {
