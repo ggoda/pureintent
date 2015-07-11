@@ -2,14 +2,19 @@ package pureServer;
 
 public class Helper{
 	
-	private String id;
+	private String id, ip;
 	private Coordinate[] locations;
 	int threshhold;
 	
-	public Helper(String helperID, Coordinate[] normal, int t){
+	public Helper(String helperID, Coordinate[] normal, int t, String ipAddr){
 		id = helperID;
 		locations = normal;
 		threshhold = t;
+		ip = ipAddr;
+	}
+	
+	public String getIP(){
+		return ip;
 	}
 	
 	public String getID(){

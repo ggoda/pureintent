@@ -22,7 +22,7 @@ public class OMWMessage extends Message {
 	@Override
 	public String serialize() {
 		// TODO Auto-generated method stub
-		return null;
+		return "OMW";
 	}
 
 	@Override

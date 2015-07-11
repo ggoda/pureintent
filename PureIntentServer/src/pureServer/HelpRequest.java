@@ -15,7 +15,7 @@ public class HelpRequest {
 	private String updateMessage;
 	ArrayBlockingQueue<Helper> helpersAsked;
 	LinkedBlockingQueue<Helper> helpersResponding;
-	boolean helpNeeded = false;
+	boolean helpNeeded = true;
 	String id;
 	
 	public HelpRequest(HelpRequestMessage h, ArrayBlockingQueue<Helper> possible, LinkedBlockingQueue<Helper> accepted){

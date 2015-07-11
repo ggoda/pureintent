@@ -9,17 +9,19 @@ public class RegistrationMessage extends Message {
 	String id, lat, lon;
 	double nLat, nLon;
 	int threshhold;
+	String ip;
 	Coordinate loc;
 	
 	/*
 	 * The registration message will have the format:
-	 * R;string latitude; string longitude; number latitude; number longitude; threshhold; android id
+	 * R;string latitude; string longitude; number latitude; number longitude; threshhold; ip; android id
 	 */
 	
 
 	public RegistrationMessage(String s) {
 		String[] fields = s.split(";");
-		id = fields[6];
+		id = fields[7];
+		ip = fields[6];
 		lat = fields[1];
 		lon = fields[2];
 		nLat = Double.parseDouble(fields[3]);
@@ -27,6 +29,10 @@ public class RegistrationMessage extends Message {
 		threshhold = Integer.parseInt(fields[5]);
 		
 		loc = new Coordinate(lat, lon, nLat, nLon);
+	}
+	
+	public String getIP(){
+		return ip;
 	}
 	
 	public Coordinate getLoc(){

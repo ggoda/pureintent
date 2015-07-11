@@ -21,7 +21,7 @@ public class HelpRequestMessage extends Message {
 		lon = fields[2].trim();
 		dLat = Double.parseDouble(fields[3].trim());
 		dLon = Double.parseDouble(fields[4].trim());
-		id = fields[4];
+		id = fields[5];
 		
 		loc = new Coordinate(lat, lon, dLat, dLon);
 	}

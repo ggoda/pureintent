@@ -8,7 +8,7 @@ import pureServer.messaging.MessageType;
 public class HelperUpdateMessage extends Message {
 	
 	/* The format for a help request message will be
-	 * HR; update message; android id; target id
+	 * HRU; update message; android id; target id
 	 * 
 	 */
 	
