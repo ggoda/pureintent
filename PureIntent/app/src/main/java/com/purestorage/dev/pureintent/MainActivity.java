@@ -49,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
     {
 
     }
+    public void cardiacArrest(MenuItem item)
+    {
+
+    }
     public void emergencyReported(MenuItem item)
     {
         setContentView(R.layout.emergencylist);

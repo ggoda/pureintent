@@ -1,14 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
-<emergencyList xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:theme="@style/Theme.AppCompat"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
+    android:id="@+id/emergencyList">
+
     <Button
         android:theme="@style/ForButtons"
         android:layout_width="300dp"
         android:layout_height="350dp"
-        android:text="@string/CardiacArrest"
-        android:id="@+id/EmergencyButton"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
+        android:text="@string/CardiacArrest"
+        android:id="@+id/CardiacArrest"
         android:textAllCaps="true"
         android:textSize="20sp"
         android:width="100dp"
@@ -17,10 +23,11 @@
         android:paddingRight="10dp"
         android:paddingTop="10dp"
         android:paddingBottom="10dp"
-        android:background="#ffff6b06"
+        android:background="#ffff1238"
         android:clickable="true"
         android:enabled="true"
         android:gravity="center"
         android:onClick="cardiacArrest"
         />
-</emergencyList>
+
+</RelativeLayout>
