@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -16,6 +18,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Button btn = (Button) findViewById(R.id.button);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myFancyMethod(v);
+            }
+        });
         setContentView(R.layout.activity_main);
 
 
@@ -56,19 +65,20 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    public void goToSettings(MenuItem item)
+
+    public void goToSettings(View view)
     {
         setContentView(R.layout.user_settings_activity);
     }
-    public void goActive(MenuItem item)
+    public void goActive(View view)
     {
 
     }
-    public void cardiacArrest(MenuItem item)
+    public void cardiacArrest(View view)
     {
 
     }
-    public void emergencyReported(MenuItem item)
+    public void emergencyReported(View view)
     {
         setContentView(R.layout.emergencylist);
     }

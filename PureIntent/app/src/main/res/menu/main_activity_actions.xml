@@ -5,7 +5,6 @@
 
     <item android:title="@string/action_settings"
         android:id="@+id/action_settings"
-        android:onClick="goToSettings"
         android:icon="@mipmap/ic_launcher"
         PureIntent:showAsAction="always" />
 
