@@ -28,7 +28,6 @@
         android:clickable="true"
         android:enabled="true"
         android:gravity="center"
-        android:onClick="emergencyReported"
          />
 
 </RelativeLayout>
