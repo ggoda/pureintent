@@ -88,6 +88,7 @@ public class PhoneMockup extends JFrame{
 	}
 	
 	public void handleServerMessages(String line){
+		System.out.println(line);
 		Message m = Message.deserialize(line);
 		if(m.getMessageType() == MessageType.ON_MY_WAY_MESSAGE){
 			JOptionPane.showMessageDialog(this, "Help is on the way!");

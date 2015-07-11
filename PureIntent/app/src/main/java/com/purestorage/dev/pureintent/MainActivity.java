@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
                     androidID = tm.getDeviceId();
                     String ip = "currentlyIrrelevant";
 
-                    LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+                    final LocationManager lm = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
                     Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                     double longitude = location.getLongitude();
                     double latitude = location.getLatitude();
@@ -110,26 +110,33 @@ public class MainActivity extends AppCompatActivity {
 
                     messageWriter.println(rm.serialize());
                     messageWriter.flush();
-                    boolean notCalled = true;
+
 
                     // TODO: make connection to server
                     while (mThreadRunning) {
                         if (true || mActive) {
+                            new Thread(new Runnable(){
+                                public void run(){
+                                    boolean notCalled = true;
+                                    while(true || mActive){
+                                        if (mEmergency && notCalled) {
+                                            // TODO: notify server
+                                            notCalled = false;
+                                            Location currentLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                                            double currLongitude = currentLocation.getLongitude();
+                                            double currLatitude = currentLocation.getLatitude();
+
+                                            String cstrLongitude = currentLocation.convert(currentLocation.getLongitude(), currentLocation.FORMAT_DEGREES);
+                                            String cstrLatitude = currentLocation.convert(currentLocation.getLatitude(), currentLocation.FORMAT_DEGREES);
+                                            HelpRequestMessage request = new HelpRequestMessage(cstrLatitude, cstrLongitude, currLatitude, currLongitude, androidID);
+                                            messageWriter.println(request.serialize());
+                                            messageWriter.flush();
+                                        }
+                                    }
+                                }
+                            });
                             for (String line = messageReader.readLine(); line != null; line = messageReader.readLine()) {
                                 handleServerMessages(line);
-                                if (mEmergency && notCalled) {
-                                    // TODO: notify server
-                                    notCalled = false;
-                                    Location currentLocation = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                                    double currLongitude = location.getLongitude();
-                                    double currLatitude = location.getLatitude();
-
-                                    String cstrLongitude = location.convert(location.getLongitude(), location.FORMAT_DEGREES);
-                                    String cstrLatitude = location.convert(location.getLatitude(), location.FORMAT_DEGREES);
-                                    HelpRequestMessage request = new HelpRequestMessage(cstrLatitude, cstrLongitude, currLatitude, currLongitude, androidID);
-                                    messageWriter.println(request.serialize());
-                                    messageWriter.flush();
-                                }
                             }
                         }
 
