@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:PureIntent="http://schemas.android.com/apk/res-auto" >
+
+    <item android:title="@string/action_settings"
+        android:id="@+id/action_settings"
+        android:onClick="goToSettings"
+        android:icon="@mipmap/ic_launcher"
+        PureIntent:showAsAction="always" />
+
+    <item android:title="@string/goactive"
+        android:id="@+id/action_goactive"
+        android:icon="@mipmap/ic_launcher"
+        PureIntent:showAsAction="always" />
+
+</menu>
