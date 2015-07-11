@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,29 +14,18 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button emergencyButton;
+    Button mEmergencyButton;
+    Thread mThread;
+    Boolean mThreadRunning;
+    MainActivity mSelfPointer;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Button btn = (Button) findViewById(R.id.button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                myFancyMethod(v);
-            }
-        });
+        mSelfPointer = this;
         setContentView(R.layout.activity_main);
 
 
-        emergencyButton = (Button)findViewById(R.id.EmergencyButton);
-        emergencyButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent();
-                startActivity(i);
-            }
-        });
     }
     @Override
     public void onResume ()
@@ -43,6 +33,50 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         setContentView(R.layout.activity_main);
 
+        mEmergencyButton = (Button) findViewById(R.id.EmergencyButton);
+        mEmergencyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mSelfPointer, "Emergency button pressed!", Toast.LENGTH_SHORT).show();
+                emergencyReported();
+            }
+        });
+
+        mThreadRunning = true;
+        mThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (mThreadRunning) {
+                    // TODO: fill this out
+                    try {
+                        Thread.sleep(1000);                 //1000 milliseconds is one second.
+                    } catch(InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            }
+        });
+        mThread.start();
+
+    }
+
+    @Override
+    public void onPause ()
+    {
+        mThreadRunning = false;
+
+        try {
+            mThread.join(1000);
+            if (mThread.isAlive())
+                Toast.makeText(this, "Thread failed to die.", Toast.LENGTH_SHORT).show();
+            else
+                mThread = null;
+        } catch (InterruptedException e) {
+            Toast.makeText(this, "Failed to kill thread.", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+
+        super.onPause();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -78,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
     {
 
     }
-    public void emergencyReported(View view)
+    public void emergencyReported()
     {
         setContentView(R.layout.emergencylist);
     }
