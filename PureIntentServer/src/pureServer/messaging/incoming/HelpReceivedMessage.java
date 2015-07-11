@@ -3,32 +3,26 @@ package pureServer.messaging.incoming;
 import pureServer.messaging.Message;
 import pureServer.messaging.MessageType;
 
-public class OMWMessage extends Message {
-	
-	/* The format for an on my way message will be
-	 * OMW; android id; target id
-	 * 
-	 */
-	
-	String id;
-	String target;
+public class HelpReceivedMessage extends Message {
 
-	public OMWMessage(String s) {
+	//The help received message indicates that users have received help
+	//the format is: "HRE; android id"
+	
+	String id, target;
+	public HelpReceivedMessage(String s){
 		String[] fields = s.split(";");
 		id = fields[1];
-		target = fields[2];
+		target = fields[1];
 	}
-
+	
 	@Override
 	public String serialize() {
-		// TODO Auto-generated method stub
-		return null;
+		return "HRE" + ";" + id;
 	}
 
 	@Override
 	public MessageType getMessageType() {
-		// TODO Auto-generated method stub
-		return MessageType.ON_MY_WAY_MESSAGE;
+		return MessageType.HELP_RECEIVED_MESSAGE;
 	}
 
 	@Override

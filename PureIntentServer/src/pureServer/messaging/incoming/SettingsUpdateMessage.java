@@ -21,4 +21,16 @@ public class SettingsUpdateMessage extends Message {
 		return MessageType.UPDATE_SETTINGS_MESSAGE;
 	}
 
+	@Override
+	public String getID() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getTarget() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

@@ -21,4 +21,16 @@ public class RegistrationMessage extends Message {
 		return MessageType.REGISTRATION_MESSAGE;
 	}
 
+	@Override
+	public String getID() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getTarget() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
