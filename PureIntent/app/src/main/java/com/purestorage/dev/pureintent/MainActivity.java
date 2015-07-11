@@ -18,11 +18,15 @@ public class MainActivity extends AppCompatActivity {
     Thread mThread;
     Boolean mThreadRunning;
     MainActivity mSelfPointer;
+    Boolean mActive;
+    Boolean mEmergency;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSelfPointer = this;
+        mActive = false;
+        mEmergency = false;
         setContentView(R.layout.activity_main);
 
 
@@ -46,8 +50,15 @@ public class MainActivity extends AppCompatActivity {
         mThread = new Thread(new Runnable() {
             @Override
             public void run() {
+                // TODO: make connection to server
                 while (mThreadRunning) {
-                    // TODO: fill this out
+                    if (mActive) {
+                        // TODO: poll server to see if there are nearby emergencies
+                    }
+                    if (mEmergency) {
+                        // TODO: notify server
+                    }
+
                     try {
                         Thread.sleep(1000);                 //1000 milliseconds is one second.
                     } catch(InterruptedException ex) {
@@ -114,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void emergencyReported()
     {
+        mEmergency = true;
         setContentView(R.layout.emergencylist);
     }
 }
