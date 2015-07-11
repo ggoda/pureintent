@@ -116,7 +116,6 @@ public class PhoneMockup extends JFrame{
 	public void dispatchOMW(String target){
 		System.out.println("omw reached");
 		OMWMessage omw = new OMWMessage(target, id);
-        
         messageWriter.println(omw.serialize());
         messageWriter.flush();
         System.out.println(omw.serialize());

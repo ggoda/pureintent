@@ -1,9 +1,8 @@
-package pureServer.messaging.outgoing;
+package com.purestorage.dev.pureintent.messaging.outgoing;
 
-import pureServer.HelpRequest;
-import pureServer.Helper;
-import pureServer.messaging.Message;
-import pureServer.messaging.MessageType;
+
+import com.purestorage.dev.pureintent.messaging.Message;
+import com.purestorage.dev.pureintent.messaging.MessageType;
 
 public class RequestClosedMessage extends Message {
 
@@ -13,11 +12,11 @@ public class RequestClosedMessage extends Message {
 	private final String typeString = "RC";
 	String target, id, lat, lon;
 	
-	public RequestClosedMessage(Helper h, HelpRequest hu){
-		id = hu.getID();
-		target = h.getID();
-		lat = hu.getLocation().getLatitudeString();
-		lon = hu.getLocation().getLongitudeString();
+	public RequestClosedMessage(String s){
+		String[] fields = s.split(";");
+		target = fields[3];
+		lat = fields[1];
+		lon = fields[2];
 	}
 	
 	@Override
