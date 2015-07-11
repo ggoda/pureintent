@@ -45,4 +45,12 @@ public class MainActivity extends AppCompatActivity {
     {
         setContentView(R.layout.user_settings_activity);
     }
+    public void goActive(MenuItem item)
+    {
+
+    }
+    public void emergencyReported(MenuItem item)
+    {
+        setContentView(R.layout.emergencylist);
+    }
 }

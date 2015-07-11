@@ -4,4 +4,6 @@
     <string name="action_settings">Settings</string>
     <string name="goactive">Go Active</string>
     <string name="usrsettings">User Settings</string>
+    <string name="cardiacString">Cardiac Arrest\n (No Pulse)</string>
+    <string name="CardiacArrest">Cardiac Arrest</string>
 </resources>
